@@ -79,9 +79,6 @@ export default async function AdminRacePage({ params }: { params: Promise<{ id: 
                       <button
                         type="submit"
                         className="text-red-500 hover:text-red-700 text-xs"
-                        onClick={(e) => {
-                          if (!confirm(`Remove ${runner.name}?`)) e.preventDefault()
-                        }}
                       >
                         Remove
                       </button>
