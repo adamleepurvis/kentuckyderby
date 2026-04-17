@@ -23,7 +23,7 @@ export function AddRunnerForm({ raceId }: { raceId: string }) {
         />
       </div>
       <div className="w-32">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Starting Odds</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Starting Odds <span className="font-normal text-gray-400">(pre-bet)</span></label>
         <input
           name="starting_odds"
           type="number"

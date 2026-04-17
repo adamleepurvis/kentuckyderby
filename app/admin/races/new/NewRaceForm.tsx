@@ -57,6 +57,11 @@ export function NewRaceForm() {
             + Add Runner
           </button>
         </div>
+        <div className="flex gap-3 text-xs font-medium text-gray-500 px-1">
+          <span className="flex-1">Runner Name</span>
+          <span className="w-28">Starting Odds</span>
+          <span className="w-16"></span>
+        </div>
         {runners.map((runner, i) => (
           <div key={i} className="flex items-center gap-3">
             <input
@@ -74,7 +79,7 @@ export function NewRaceForm() {
             <input
               name={`runner_odds_${i}`}
               type="number"
-              placeholder="Odds"
+              placeholder="e.g. 3.5"
               step="0.1"
               min="1.01"
               value={runner.odds}
