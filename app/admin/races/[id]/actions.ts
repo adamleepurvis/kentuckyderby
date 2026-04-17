@@ -6,6 +6,7 @@ import {
   createRunner,
   deleteRunner,
   recalculateOdds,
+  declareWinner,
 } from '@/lib/data'
 import { revalidatePath } from 'next/cache'
 import type { RaceStatus } from '@/lib/types'
@@ -55,6 +56,22 @@ export async function deleteRunnerAction(formData: FormData): Promise<void> {
   await deleteRunner(runnerId)
   revalidatePath(`/admin/races/${raceId}`)
   revalidatePath(`/races/${raceId}`)
+}
+
+export async function declareWinnerAction(_prevState: unknown, formData: FormData) {
+  await requireAdmin()
+  const raceId = formData.get('race_id') as string
+  const winnerRunnerId = formData.get('winner_runner_id') as string
+  if (!winnerRunnerId) return { error: 'Please select a winner.' }
+  try {
+    await declareWinner(raceId, winnerRunnerId)
+    revalidatePath(`/admin/races/${raceId}`)
+    revalidatePath(`/races/${raceId}`)
+    revalidatePath('/leaderboard')
+    return { success: true }
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Failed to declare winner.' }
+  }
 }
 
 export async function recalculateOddsAction(formData: FormData): Promise<void> {

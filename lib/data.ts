@@ -35,7 +35,7 @@ export async function createRace(name: string, status: Race['status']): Promise<
   return data
 }
 
-export async function updateRace(id: string, updates: Partial<Pick<Race, 'name' | 'status'>>): Promise<void> {
+export async function updateRace(id: string, updates: Partial<Pick<Race, 'name' | 'status' | 'winner_runner_id'>>): Promise<void> {
   const supabase = createServiceClient()
   const { error } = await supabase
     .from('races')
@@ -124,6 +124,53 @@ export async function placeBet(
     .single()
   if (error) throw new Error(error.message)
   return data
+}
+
+// ─── Winner ───────────────────────────────────────────────────────────────────
+
+export async function declareWinner(raceId: string, winnerRunnerId: string): Promise<void> {
+  const supabase = createServiceClient()
+  const { error } = await supabase
+    .from('races')
+    .update({ winner_runner_id: winnerRunnerId, status: 'finished' })
+    .eq('id', raceId)
+  if (error) throw new Error(error.message)
+}
+
+// ─── Leaderboard ──────────────────────────────────────────────────────────────
+
+export interface LeaderboardEntry {
+  bettor_name: string
+  race_name: string
+  runner_name: string
+  amount: number
+  odds: number
+  payout: number
+}
+
+export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
+  const supabase = await createClient()
+  // Get all bets where the runner is the race winner
+  const { data, error } = await supabase
+    .from('bets')
+    .select('bettor_name, amount, odds_at_time_of_bet, runners(name, id), races(name, winner_runner_id)')
+    .order('created_at', { ascending: false })
+  if (error) throw new Error(error.message)
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (data ?? [] as any[])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .filter((b: any) => b.races?.winner_runner_id === b.runners?.id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .map((b: any) => ({
+      bettor_name: b.bettor_name as string,
+      race_name: b.races.name as string,
+      runner_name: b.runners.name as string,
+      amount: b.amount as number,
+      odds: b.odds_at_time_of_bet as number,
+      payout: parseFloat(((b.amount as number) * (b.odds_at_time_of_bet as number)).toFixed(2)),
+    }))
+    .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.payout - a.payout)
 }
 
 // ─── Odds recalculation ───────────────────────────────────────────────────────

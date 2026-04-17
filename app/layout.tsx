@@ -19,6 +19,7 @@ export default function RootLayout({
             RaceBet
           </a>
           <a href="/races" className="text-sm text-gray-600 hover:text-gray-900">Races</a>
+          <a href="/leaderboard" className="text-sm text-gray-600 hover:text-gray-900">Leaderboard</a>
           <div className="ml-auto">
             <a href="/admin" className="text-sm text-gray-500 hover:text-gray-900">Admin</a>
           </div>

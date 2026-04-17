@@ -7,9 +7,11 @@ import type { Runner } from '@/lib/types'
 export function RunnersTable({
   initialRunners,
   raceId,
+  winnerId,
 }: {
   initialRunners: Runner[]
   raceId: string
+  winnerId?: string | null
 }) {
   const [runners, setRunners] = useState(initialRunners)
 
@@ -52,15 +54,21 @@ export function RunnersTable({
           </tr>
         </thead>
         <tbody>
-          {runners.map((runner) => (
-            <tr key={runner.id} className="border-b border-gray-100 hover:bg-gray-50">
-              <td className="py-3 px-4 font-medium">{runner.name}</td>
-              <td className="py-3 px-4 text-right text-gray-500">{runner.starting_odds}x</td>
-              <td className="py-3 px-4 text-right font-bold text-emerald-700">
-                {runner.current_odds}x
-              </td>
-            </tr>
-          ))}
+          {runners.map((runner) => {
+            const isWinner = winnerId === runner.id
+            return (
+              <tr key={runner.id} className={`border-b border-gray-100 hover:bg-gray-50 ${isWinner ? 'bg-yellow-50' : ''}`}>
+                <td className="py-3 px-4 font-medium">
+                  {runner.name}
+                  {isWinner && <span className="ml-2 text-yellow-600 text-xs font-semibold">Winner</span>}
+                </td>
+                <td className="py-3 px-4 text-right text-gray-500">{runner.starting_odds}x</td>
+                <td className="py-3 px-4 text-right font-bold text-emerald-700">
+                  {runner.current_odds}x
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

@@ -4,6 +4,7 @@ export interface Race {
   id: string
   name: string
   status: RaceStatus
+  winner_runner_id: string | null
   created_at: string
 }
 

@@ -4,6 +4,7 @@ import { getRace, getRunners, getBets } from '@/lib/data'
 import { StatusBadge } from '@/components/StatusBadge'
 import { EditRaceForm } from './EditRaceForm'
 import { AddRunnerForm } from './AddRunnerForm'
+import { DeclareWinnerForm } from './DeclareWinnerForm'
 import { deleteRunnerAction, recalculateOddsAction } from './actions'
 import Link from 'next/link'
 
@@ -97,6 +98,26 @@ export default async function AdminRacePage({ params }: { params: Promise<{ id: 
           <AddRunnerForm raceId={race.id} />
         </div>
       </section>
+
+      {/* Declare Winner */}
+      {runners.length > 0 && (
+        <section className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+          <div>
+            <h2 className="font-semibold text-gray-900">Declare Winner</h2>
+            <p className="text-xs text-gray-500 mt-0.5">Setting a winner marks the race as finished.</p>
+          </div>
+          {race.winner_runner_id && (
+            <p className="text-sm text-emerald-700 font-medium">
+              Current winner: {runners.find(r => r.id === race.winner_runner_id)?.name}
+            </p>
+          )}
+          <DeclareWinnerForm
+            raceId={race.id}
+            runners={runners}
+            currentWinnerId={race.winner_runner_id}
+          />
+        </section>
+      )}
 
       {/* Bets */}
       <section className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
