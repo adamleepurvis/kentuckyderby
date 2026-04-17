@@ -145,32 +145,40 @@ export interface LeaderboardEntry {
   runner_name: string
   amount: number
   odds: number
-  payout: number
+  won: boolean
+  result: number // positive payout if won, negative amount if lost
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   const supabase = await createClient()
-  // Get all bets where the runner is the race winner
+  // Get all bets on finished races (where winner has been declared)
   const { data, error } = await supabase
     .from('bets')
     .select('bettor_name, amount, odds_at_time_of_bet, runners(name, id), races(name, winner_runner_id)')
+    .not('races.winner_runner_id', 'is', null)
     .order('created_at', { ascending: false })
   if (error) throw new Error(error.message)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (data ?? [] as any[])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .filter((b: any) => b.races?.winner_runner_id === b.runners?.id)
+    .filter((b: any) => b.races?.winner_runner_id !== null && b.races?.winner_runner_id !== undefined)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .map((b: any) => ({
-      bettor_name: b.bettor_name as string,
-      race_name: b.races.name as string,
-      runner_name: b.runners.name as string,
-      amount: b.amount as number,
-      odds: b.odds_at_time_of_bet as number,
-      payout: parseFloat(((b.amount as number) * (b.odds_at_time_of_bet as number)).toFixed(2)),
-    }))
-    .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.payout - a.payout)
+    .map((b: any) => {
+      const won = b.races.winner_runner_id === b.runners?.id
+      const amount = b.amount as number
+      const odds = b.odds_at_time_of_bet as number
+      return {
+        bettor_name: b.bettor_name as string,
+        race_name: b.races.name as string,
+        runner_name: b.runners.name as string,
+        amount,
+        odds,
+        won,
+        result: won ? parseFloat((amount * odds).toFixed(2)) : -amount,
+      }
+    })
+    .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.result - a.result)
 }
 
 // ─── Odds recalculation ───────────────────────────────────────────────────────
