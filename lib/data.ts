@@ -139,6 +139,33 @@ export async function declareWinner(raceId: string, winnerRunnerId: string): Pro
 
 // ─── Leaderboard ──────────────────────────────────────────────────────────────
 
+export interface CumulativeEntry {
+  bettor_name: string
+  bets: number
+  wins: number
+  total_wagered: number
+  net: number
+}
+
+export function getCumulativeStandings(entries: LeaderboardEntry[]): CumulativeEntry[] {
+  const map = new Map<string, CumulativeEntry>()
+  for (const e of entries) {
+    const existing = map.get(e.bettor_name) ?? {
+      bettor_name: e.bettor_name,
+      bets: 0,
+      wins: 0,
+      total_wagered: 0,
+      net: 0,
+    }
+    existing.bets += 1
+    existing.wins += e.won ? 1 : 0
+    existing.total_wagered += e.amount
+    existing.net += e.result
+    map.set(e.bettor_name, existing)
+  }
+  return Array.from(map.values()).sort((a, b) => b.net - a.net)
+}
+
 export interface LeaderboardEntry {
   bettor_name: string
   race_name: string
