@@ -45,7 +45,6 @@ export default async function AdminPage() {
               <tr className="border-b border-gray-200 bg-gray-50">
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Race</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Created</th>
                 <th className="py-3 px-4"></th>
               </tr>
             </thead>
@@ -55,9 +54,6 @@ export default async function AdminPage() {
                   <td className="py-3 px-4 font-medium">{race.name}</td>
                   <td className="py-3 px-4">
                     <StatusBadge status={race.status} />
-                  </td>
-                  <td className="py-3 px-4 text-gray-500">
-                    {new Date(race.created_at).toLocaleDateString()}
                   </td>
                   <td className="py-3 px-4 text-right">
                     <Link

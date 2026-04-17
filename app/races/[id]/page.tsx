@@ -24,9 +24,6 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
             <h1 className="text-2xl font-bold">{race.name}</h1>
             <StatusBadge status={race.status} />
           </div>
-          <p className="text-sm text-gray-500">
-            {new Date(race.created_at).toLocaleDateString()}
-          </p>
         </div>
       </div>
 

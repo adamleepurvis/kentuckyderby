@@ -24,9 +24,6 @@ export default async function RacesPage() {
                 <h2 className="text-lg font-semibold">{race.name}</h2>
                 <StatusBadge status={race.status} />
               </div>
-              <p className="text-sm text-gray-500 mt-1">
-                {new Date(race.created_at).toLocaleDateString()}
-              </p>
             </Link>
           ))}
         </div>
