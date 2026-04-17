@@ -87,9 +87,11 @@ end;
 $$;
 
 -- Trigger function that calls recalculate_odds after each bet insert
+-- security definer so it runs with owner privileges and can update runners (bypasses RLS)
 create or replace function trigger_recalculate_odds()
 returns trigger
 language plpgsql
+security definer
 as $$
 begin
   perform recalculate_odds(NEW.race_id);
