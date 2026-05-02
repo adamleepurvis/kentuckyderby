@@ -37,11 +37,11 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
 
       <div className="bg-white rounded-lg border border-gray-200">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="font-semibold text-gray-900">Runners & Odds</h2>
+          <h2 className="font-semibold text-gray-900">Horses & Odds</h2>
           <p className="text-xs text-gray-500 mt-0.5">Odds update live as bets come in</p>
         </div>
         {runners.length === 0 ? (
-          <p className="px-6 py-4 text-gray-500 text-sm">No runners added yet.</p>
+          <p className="px-6 py-4 text-gray-500 text-sm">No horses added yet.</p>
         ) : (
           <RunnersTable initialRunners={runners} raceId={race.id} winnerId={race.winner_runner_id} />
         )}
@@ -74,7 +74,7 @@ export default async function RacePage({ params }: { params: Promise<{ id: strin
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Bettor</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Runner</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Horse</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Amount</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Odds</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Potential Payout</th>

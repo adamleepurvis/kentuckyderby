@@ -60,13 +60,13 @@ export function BetForm({ raceId, runners }: { raceId: string; runners: Runner[]
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Runner</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Horse</label>
         <select
           name="runner_id"
           required
           className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
-          <option value="">Select a runner...</option>
+          <option value="">Select a horse...</option>
           {runners.map((r) => (
             <option key={r.id} value={r.id}>
               {r.name} — {r.current_odds}x

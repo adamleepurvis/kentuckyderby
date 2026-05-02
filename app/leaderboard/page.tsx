@@ -41,7 +41,7 @@ export default async function LeaderboardPage() {
                   <thead>
                     <tr className="border-b border-gray-100 bg-gray-50">
                       <th className="text-left py-2 px-5 font-semibold text-gray-700">Bettor</th>
-                      <th className="text-left py-2 px-5 font-semibold text-gray-700">Runner</th>
+                      <th className="text-left py-2 px-5 font-semibold text-gray-700">Horse</th>
                       <th className="text-right py-2 px-5 font-semibold text-gray-700">Amount</th>
                       <th className="text-right py-2 px-5 font-semibold text-gray-700">Odds</th>
                       <th className="text-right py-2 px-5 font-semibold text-gray-700">Potential</th>
@@ -122,7 +122,7 @@ export default async function LeaderboardPage() {
                 <tr className="border-b border-gray-200 bg-gray-50">
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Bettor</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-700">Race</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Runner</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Horse</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Bet</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Odds</th>
                   <th className="text-right py-3 px-4 font-semibold text-gray-700">Result</th>

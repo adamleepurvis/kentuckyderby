@@ -42,10 +42,10 @@ export default async function AdminRacePage({ params }: { params: Promise<{ id: 
         <EditRaceForm race={race} />
       </section>
 
-      {/* Runners */}
+      {/* Horses */}
       <section className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-gray-900">Runners</h2>
+          <h2 className="font-semibold text-gray-900">Horses</h2>
           <form action={recalculateOddsAction}>
             <input type="hidden" name="race_id" value={race.id} />
             <button
@@ -90,11 +90,11 @@ export default async function AdminRacePage({ params }: { params: Promise<{ id: 
             </tbody>
           </table>
         ) : (
-          <p className="text-gray-500 text-sm">No runners yet.</p>
+          <p className="text-gray-500 text-sm">No horses yet.</p>
         )}
 
         <div className="pt-2 border-t border-gray-100">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">Add Runner</h3>
+          <h3 className="text-sm font-medium text-gray-700 mb-3">Add Horse</h3>
           <AddRunnerForm raceId={race.id} />
         </div>
       </section>
@@ -136,7 +136,7 @@ export default async function AdminRacePage({ params }: { params: Promise<{ id: 
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-2 font-semibold text-gray-700">Bettor</th>
-                  <th className="text-left py-2 font-semibold text-gray-700">Runner</th>
+                  <th className="text-left py-2 font-semibold text-gray-700">Horse</th>
                   <th className="text-right py-2 font-semibold text-gray-700">Amount</th>
                   <th className="text-right py-2 font-semibold text-gray-700">Odds</th>
                   <th className="text-right py-2 font-semibold text-gray-700">Potential</th>

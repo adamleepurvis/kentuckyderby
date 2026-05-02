@@ -106,9 +106,9 @@ export function NewRaceForm() {
 
       <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-gray-900">Runners</h2>
+          <h2 className="font-semibold text-gray-900">Horses</h2>
           <div className="flex items-center gap-2">
-            <label className="text-sm text-gray-600">Number of runners:</label>
+            <label className="text-sm text-gray-600">Number of horses:</label>
             <input
               type="number"
               min={2}
@@ -121,7 +121,7 @@ export function NewRaceForm() {
         </div>
 
         <div className="flex gap-3 text-xs font-medium text-gray-500 px-1">
-          <span className="flex-1">Runner Name</span>
+          <span className="flex-1">Horse Name</span>
           <span className="w-36 text-center">Starting Odds (pre-bet)</span>
         </div>
 
@@ -135,7 +135,7 @@ export function NewRaceForm() {
 
               <input
                 type="text"
-                placeholder={`Runner ${i + 1} name`}
+                placeholder={`Horse ${i + 1}`}
                 value={runner.name}
                 onChange={(e) => handleNameChange(i, e.target.value)}
                 className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -167,7 +167,7 @@ export function NewRaceForm() {
         })}
 
         <p className="text-xs text-gray-400">
-          ↑ longer odds (bigger payout) · ↓ shorter odds (more likely to win) · adjusting one runner rebalances the others
+          ↑ longer odds (bigger payout) · ↓ shorter odds (more likely to win) · adjusting one horse rebalances the others
         </p>
       </div>
 

@@ -17,7 +17,7 @@ export function ClearDataButton() {
       <div>
         <h3 className="font-semibold text-red-800">Danger Zone</h3>
         <p className="text-sm text-red-700 mt-0.5">
-          This will permanently delete all races, runners, and bets. Cannot be undone.
+          This will permanently delete all races, horses, and bets. Cannot be undone.
         </p>
       </div>
       <label className="flex items-center gap-2 text-sm text-red-700 cursor-pointer">

@@ -13,7 +13,7 @@ export function AddRunnerForm({ raceId }: { raceId: string }) {
       <input type="hidden" name="race_id" value={raceId} />
 
       <div className="flex-1">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Runner Name</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Horse Name</label>
         <input
           name="name"
           type="text"
