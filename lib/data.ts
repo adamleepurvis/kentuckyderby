@@ -208,6 +208,47 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.result - a.result)
 }
 
+// ─── Open races with bets ─────────────────────────────────────────────────────
+
+export interface OpenRaceWithBets {
+  id: string
+  name: string
+  bets: (Bet & { runner_name: string })[]
+  total_pool: number
+}
+
+export async function getOpenRacesWithBets(): Promise<OpenRaceWithBets[]> {
+  const supabase = await createClient()
+  const { data: races, error } = await supabase
+    .from('races')
+    .select('id, name')
+    .eq('status', 'open')
+    .order('created_at', { ascending: false })
+  if (error) throw new Error(error.message)
+  if (!races || races.length === 0) return []
+
+  const results: OpenRaceWithBets[] = []
+  for (const race of races) {
+    const bets = await getBets(race.id)
+    results.push({
+      id: race.id,
+      name: race.name,
+      bets,
+      total_pool: bets.reduce((sum, b) => sum + b.amount, 0),
+    })
+  }
+  return results
+}
+
+// ─── Clear all data ───────────────────────────────────────────────────────────
+
+export async function clearAllData(): Promise<void> {
+  const supabase = createServiceClient()
+  // Deleting all races cascades to runners and bets
+  const { error } = await supabase.from('races').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  if (error) throw new Error(error.message)
+}
+
 // ─── Odds recalculation ───────────────────────────────────────────────────────
 
 export async function recalculateOdds(raceId: string): Promise<void> {

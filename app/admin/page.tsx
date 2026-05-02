@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/admin-auth'
 import { getRaces } from '@/lib/data'
 import { StatusBadge } from '@/components/StatusBadge'
+import { ClearDataButton } from './ClearDataButton'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -69,6 +70,9 @@ export default async function AdminPage() {
           </table>
         </div>
       )}
+      <div className="mt-10">
+        <ClearDataButton />
+      </div>
     </div>
   )
 }
