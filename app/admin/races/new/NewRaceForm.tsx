@@ -5,7 +5,7 @@ import { createRaceAction } from './actions'
 
 type State = { error?: string } | null
 
-const DEFAULT_ODDS = 2.0
+const DEFAULT_ODDS = 4.0
 const STEP = 0.5
 const MIN_ODDS = 1.1
 
