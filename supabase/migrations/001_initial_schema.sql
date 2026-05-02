@@ -38,50 +38,45 @@ create table if not exists bets (
 create index if not exists bets_race_id_idx on bets(race_id);
 create index if not exists bets_runner_id_idx on bets(runner_id);
 
--- Function to recalculate odds for all runners in a race
+-- Function to recalculate odds for all runners in a race.
+-- Uses a virtual seed bet (1/starting_odds) per horse so that all horses update
+-- on every bet, not just horses that have received bets.
 create or replace function recalculate_odds(p_race_id uuid)
 returns void
 language plpgsql
 as $$
 declare
-  v_total_pool numeric;
-  v_runner_bets numeric;
-  v_house_take numeric := 0.10; -- 10% house take
+  v_total_real_pool numeric;
+  v_total_effective_pool numeric;
+  v_runner_real_bets numeric;
+  v_seed numeric;
+  v_house_take numeric := 0.10;
   r record;
 begin
-  -- Calculate total pool for the race
-  select coalesce(sum(amount), 0)
-  into v_total_pool
-  from bets
-  where race_id = p_race_id;
+  select coalesce(sum(amount), 0) into v_total_real_pool
+  from bets where race_id = p_race_id;
 
-  -- If no bets, reset to starting_odds
-  if v_total_pool = 0 then
-    update runners
-    set current_odds = starting_odds
-    where race_id = p_race_id;
+  if v_total_real_pool = 0 then
+    update runners set current_odds = starting_odds where race_id = p_race_id;
     return;
   end if;
 
-  -- Update each runner's current_odds
-  for r in select id from runners where race_id = p_race_id loop
-    select coalesce(sum(amount), 0)
-    into v_runner_bets
-    from bets
-    where runner_id = r.id;
+  -- effective pool = real bets + sum of seeds (1/starting_odds per horse)
+  select v_total_real_pool + coalesce(sum(1.0 / starting_odds), 0)
+  into v_total_effective_pool
+  from runners where race_id = p_race_id;
 
-    if v_runner_bets = 0 then
-      -- No bets on this runner, use starting_odds
-      update runners
-      set current_odds = starting_odds
-      where id = r.id;
-    else
-      -- Pari-mutuel odds with house take
-      -- odds = (total_pool * (1 - house_take)) / runner_bets
-      update runners
-      set current_odds = round((v_total_pool * (1 - v_house_take)) / v_runner_bets, 2)
-      where id = r.id;
-    end if;
+  for r in select id, starting_odds from runners where race_id = p_race_id loop
+    select coalesce(sum(amount), 0) into v_runner_real_bets
+    from bets where runner_id = r.id;
+
+    v_seed := 1.0 / r.starting_odds;
+
+    update runners
+    set current_odds = round(
+      (v_total_effective_pool * (1 - v_house_take)) / (v_runner_real_bets + v_seed), 2
+    )
+    where id = r.id;
   end loop;
 end;
 $$;
