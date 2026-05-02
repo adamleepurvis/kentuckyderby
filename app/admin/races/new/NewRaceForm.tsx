@@ -43,7 +43,7 @@ function adjustOdds(probs: number[], index: number, direction: 1 | -1): number[]
 
 function makeRunners(n: number) {
   return Array.from({ length: n }, (_, i) => ({
-    name: '',
+    name: `Horse ${i + 1}`,
     prob: toProb(DEFAULT_ODDS),
   }))
 }
@@ -135,7 +135,7 @@ export function NewRaceForm() {
 
               <input
                 type="text"
-                placeholder={`Horse ${i + 1}`}
+                placeholder=""
                 value={runner.name}
                 onChange={(e) => handleNameChange(i, e.target.value)}
                 className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
