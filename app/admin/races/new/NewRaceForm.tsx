@@ -41,9 +41,12 @@ function adjustOdds(probs: number[], index: number, direction: 1 | -1): number[]
   return newProbs
 }
 
+const DEFAULT_NAMES = ['Red', 'Yellow', 'Blue', 'Green', 'Orange', 'Purple', 'Pink', 'White', 'Black', 'Silver',
+  'Gold', 'Bronze', 'Teal', 'Navy', 'Maroon', 'Coral', 'Lime', 'Indigo', 'Violet', 'Cyan']
+
 function makeRunners(n: number) {
   return Array.from({ length: n }, (_, i) => ({
-    name: `Horse ${i + 1}`,
+    name: DEFAULT_NAMES[i] ?? `Horse ${i + 1}`,
     prob: toProb(DEFAULT_ODDS),
   }))
 }
