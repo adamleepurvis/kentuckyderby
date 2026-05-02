@@ -37,6 +37,7 @@ export default async function LeaderboardPage() {
               {race.bets.length === 0 ? (
                 <p className="px-5 py-4 text-sm text-gray-500">No bets yet.</p>
               ) : (
+                <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-100 bg-gray-50">
@@ -61,6 +62,7 @@ export default async function LeaderboardPage() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </div>
           ))}
@@ -76,6 +78,7 @@ export default async function LeaderboardPage() {
           </div>
         ) : (
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
@@ -104,6 +107,7 @@ export default async function LeaderboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </section>
@@ -117,6 +121,7 @@ export default async function LeaderboardPage() {
           </div>
         ) : (
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
@@ -143,6 +148,7 @@ export default async function LeaderboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </section>
